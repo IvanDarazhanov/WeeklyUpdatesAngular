@@ -1,0 +1,50 @@
+ 
+<input type="text"[(ngModel)]="modelSize">
+
+<div class="video-wrapper">
+<button (click)="processPreviousClip()" class="button">Предишен клип</button>
+<div class="video-placeholder">
+  <div class="video-placeholder--link">
+  {{videoLinkCollection[index].link}}
+  </div>
+  <div class="video-placeholder--title">
+  {{videoLinkCollection[index].title||'No title'}}
+  </div>
+  <div class="video-placeholder--note">
+  {{videoLinkCollection[index].notes||'No notes'}}
+  </div>
+
+<div class="video-data">
+
+<input [(ngModel)]="modelTitle" (input)="processInputVideoTitle($event)" type="text" placeholder="Заглавие на видеото">
+<!-- {{modelTitle}} -->
+@if(modelTitle.length>5){
+  <div class="error">Заглавието е твърде голямо</div>
+}
+
+<input [(ngModel)]="modelNote" (input)="processInputVideoNote($event)"type="text" placeholder="Бележки към видеото">
+
+<div>Въведохте {{modelNote.length}}/{{modelSize}}</div>
+<!-- {{modelNote}} -->
+@if(modelNote.length>modelSize){
+  <div class="error">Бележката е твърде голяма</div>
+}
+
+<button (click)="processSaveVideoData()">Запази ми бележките</button>
+</div>
+
+</div>
+<button (click)="processNextClip()" class="button">Следващ клип</button>  
+</div>
+
+<app-list-view></app-list-view>
+
+<div>Всички клипове</div>
+@for (element of videoLinkCollection; track element) {
+  <div class="element">
+      <div>{{element.link}}</div>
+      <div>{{element.title}}</div>
+      <div>{{element.notes}}</div>
+      <button (click)="processVideoRecord(element, $index)">Редактирай</button>
+  </div>
+}
